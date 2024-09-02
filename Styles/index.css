@@ -17,6 +17,7 @@ body {
     color: whitesmoke;
 }
 
+
 h1 {
     font-size: 4.5em;
 }
@@ -47,6 +48,8 @@ header {
     align-items: center;
     justify-content: center;
     padding: 0 100px;
+    position: fixed;
+    border-radius: 0 0 30px 30px;
 }
 
 .bars {
@@ -124,7 +127,7 @@ header {
     justify-content: center;
     text-align: center;
     flex-direction: column;
-    height: 90vh;
+    height: 100vh;
     color: whitesmoke;
     background-image: linear-gradient(
         0deg,
@@ -148,7 +151,85 @@ header {
 #About-us {
     padding: 2rem;
     background-color: #323232;
-    height: 80vh;
+    height: auto; /* Permite que la altura se ajuste al contenido */
+    background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.5),
+        rgb(0, 0, 0, 0.5)
+    ),
+    url("/src/img/Cocineros.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;  
+    text-align: center;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#About-us p{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    color:#746743;
+    padding: 5px;
+    font-size: small;
+    text-align: justify;
+
+}
+
+.Card {
+    background-color: #323232;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px; /* Espacio entre tarjetas */
+    flex: 1; /* Asegura que todas las tarjetas tengan el mismo tamaño */
+    max-width: 300px; /* Ajusta el tamaño máximo de las tarjetas */
+    height: 450px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+
+.Info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+}
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px; 
+}
+
+.button-container .button {
+    margin-left: 0; /* Elimina el margen a la izquierda si lo deseas */
+}
+
+
+.Esencia h3{
+    color: #e81010;
+    margin: 10px 0; 
+    font-size: 25px;
+}
+
+.Lugar h3{
+    color: #4212f2;
+    margin: 10px 0; 
+    font-size: 25px;
+}
+
+.Especialidad h3{
+    color:whitesmoke;
+    margin: 10px 0; 
+    font-size: 25px;
 }
 
 #events-news {

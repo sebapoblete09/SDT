@@ -1,0 +1,492 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #444;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    color: whitesmoke;
+}
+
+
+h1 {
+    font-size: 4.5em;
+}
+
+h2 {
+    font-size: 2.7em;
+    color: whitesmoke;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+p {
+    font-size: 1.24em;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+}
+
+header {
+    width: 100%;
+    height: 80px;
+    background-color: #e81010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 100px;
+    position: fixed;
+    border-radius: 0 0 30px 30px;
+    z-index: 1000;
+}
+
+.bars {
+    display: none;
+}
+
+.nav-bar ul {
+    display: flex;
+}
+
+.nav-bar ul li a {
+    display: block;
+    color: whitesmoke;
+    font-size: 18px;
+    padding: 10px 25px;
+    border-radius: 15px;
+    transition: 0.2s;
+    margin: 0 5px;
+}
+
+.nav-bar ul li a:hover {
+    color: #e81010;
+    background-color: #323232;
+}
+
+.nav-bar ul li a.active {
+    color: #e81010;
+    background-color: #323232;
+}
+
+.button {
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(0, 0, 0.5);
+    box-shadow: 2px 2px 10px rgb(0, 0, 0.5);
+    color: whitesmoke;
+    background-color: #e81010;
+    cursor: pointer;
+}
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+}
+
+.button:hover span {
+    padding-right: 25px;
+    transition: 0.5s;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.button:hover {
+    background-color: #323232;
+    color: #e81010;
+}
+
+
+/* Estilos para cada sección */
+section {
+    padding: 20px;
+    background-color: #444;
+
+}
+
+section h2 {
+    margin-top: 0;
+    color: whitesmoke;
+}
+
+#intro {
+    text-align: center;
+    padding: 100px;
+    margin-bottom: 30px;
+}
+
+#intro h1 {
+    margin: 10px;
+    color: whitesmoke;
+    font-size: 2.5em;
+}
+
+#history {
+    padding: 40px;
+}
+
+.history-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+}
+
+.history-image {
+    flex: 1;
+    max-width: 50%; /* Ajusta el ancho máximo de la imagen al 50% del contenedor */
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+.history-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; /* Añade bordes redondeados si se desea */
+}
+
+.history-text {
+    flex: 1;
+    max-width: 50%; /* Ajusta el ancho máximo del texto al 50% del contenedor */
+}
+
+.history-text h2 {
+    margin-bottom: 20px;
+    color: whitesmoke;
+}
+
+.history-text p {
+    line-height: 1.6; /* Mejora la legibilidad del texto */
+    font-size: medium;
+}
+
+#mvv{
+    background-color: #746743;
+    
+}
+
+#mvv {
+    padding: 2rem;
+    height: auto;
+    text-align: center;  
+    display: flex;
+    justify-content: space-around; /* Espacio alrededor de las tarjetas */
+    flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente línea si la pantalla es pequeña */
+}
+
+.Card {
+    flex: 1;
+    margin: 15px;
+    max-width: 30%; /* Ajusta el tamaño máximo de las tarjetas */
+    min-width: 250px; /* Asegura que las tarjetas no se vuelvan demasiado pequeñas */
+    background-color: #323232;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    text-align: justify;
+}
+
+
+
+#mission h2, #vision h2, #values h2 {
+    font-size: 25px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+#mission h2 {
+    color: #e81010;
+}
+
+#vision h2 {
+    color: #4212f2;
+}
+
+#values h2 {
+    color: whitesmoke;
+}
+
+#history p, 
+#specialties p, 
+#team p, 
+#achievements p {
+    margin: 10px 0;
+}
+
+#values ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+#values li {
+    list-style:square;
+
+}
+
+.Card span{
+    font-weight: bold;
+    color: #d1056b;
+}
+/* Contenedor general del carrusel */
+#specialties {
+    padding: 40px;
+    text-align: center;
+    position: relative; /* Asegura que los elementos con z-index se posicionen correctamente */
+}
+
+/* Contenedor del carrusel */
+.carousel {
+    position: relative;
+    width: 90%;
+    max-width: 1200px; /* Ajusta el tamaño máximo del carrusel */
+    margin: 0 auto;
+    overflow: hidden; /* Asegura que el contenido no sobresalga del contenedor */
+    z-index: 1; /* Asegura que el carrusel esté detrás del menú */
+}
+
+/* Contenedor de los ítems del carrusel */
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Ítems del carrusel */
+.carousel-item {
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #444; /* Fondo negro para el carrusel */
+    color: white;
+    z-index: 2; /* Asegura que los ítems del carrusel estén encima del fondo negro del carrusel */
+}
+
+/* Imagen del carrusel */
+.carousel-image {
+    flex: 1;
+    margin-right: 20px;
+}
+
+/* Imagen dentro del ítem del carrusel */
+.carousel-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Texto del carrusel */
+.carousel-text {
+    flex: 2;
+    text-align: left;
+}
+
+/* Botones de navegación */
+.carousel-prev, .carousel-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 3; /* Asegura que los botones estén encima del contenido del carrusel */
+}
+
+.carousel-prev {
+    left: 10px;
+}
+
+.carousel-next {
+    right: 10px;
+}
+
+.carousel-prev:hover, .carousel-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+
+#team {
+    background-color: #444;
+    padding: 40px;
+    text-align: center;
+}
+
+#team h2 {
+    color: whitesmoke;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#team .team-member {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #323232;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#team .team-member img {
+    border-radius: 50%;
+    width: 200px; /* Ajusta el tamaño de las imágenes */
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+#team .team-member h3 {
+    color: #e81010; /* Color para los nombres */
+    margin-bottom: 10px;
+}
+
+#team .team-member p {
+    color: whitesmoke;
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 0 15px; /* Espacio a los lados del texto */
+}
+
+.container-img{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: 250px;
+    grid-gap: 20px;
+    padding: 100px 0;
+}
+
+.gallery-item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gallery-item:nth-child(1){
+    grid-column-start: span 2;
+}
+
+.gallery-item:nth-child(4){
+    grid-column-start: span 2;
+}
+
+
+footer {
+    background-color: black;
+}
+
+footer p {
+    margin: 0;
+    color: rgb(100, 100, 100);
+    font-size: 0.8rem;
+}
+
+footer .container {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+footer .container-a {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+footer a {
+    color: white;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #e81010;
+}
+
+/* Vista PC */
+@media (max-width: 900px) {
+   
+
+    .bars {
+        display: block;
+        cursor: pointer;
+    }
+
+    .bars .line {
+        width: 30px;
+        height: 3px;
+        background-color: whitesmoke;
+        margin: 6px 0px;
+    }
+
+    .nav-bar {
+        height: 0px;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        background-color: #323232;
+        transition: 0.5s;
+        overflow: hidden;
+    }
+
+    .nav-bar.active {
+        height: 450px;
+    }
+
+    .nav-bar ul {
+        display: block;
+        width: fit-content;
+        margin: 20px auto 0 auto;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+    }
+
+    .nav-bar.active ul {
+        opacity: 1;
+    }
+
+    .nav-bar ul li a {
+        margin-bottom: 20px;
+    }
+
+
+    footer .container {
+        justify-content: flex-end;
+    }
+}
