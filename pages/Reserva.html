@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reservar</title>
-    <link rel="stylesheet" href="/Styles/index.css" />
+    <link rel="stylesheet" href="/Styles/reserva.css" />
   </head>
   <body>
     <header>
@@ -16,7 +16,7 @@
       <div class="nav-bar">
         <ul>
           <li>
-            <a href="/index.html" >Inicio</a>
+            <a href="/index.html">Inicio</a>
           </li>
           <li>
             <a href="/pages/About-us.html">Sobre Nosotros</a>
@@ -34,45 +34,40 @@
       </div>
     </header>
 
-    <!-- <form action="#">
-          <label for="Personas">Tamaño del grupo</label>
-          <select name="Cantidad de personas" id="Personas">
-            <option value="2">1 personas</option>
-            <option value="2">2 personas</option>
-            <option value="2">3 personas</option>
-            <option value="2">4 personas</option>
-            <option value="2">5 personas</option>
-            <option value="2">6 personas</option>
-          </select>
-          <label for="Fecha">Fecha</label>
-          <input type="date">
-          <label for="Horario">Horario</label>
-          <select name="Horario" id="Horario">
-            <option value="12">12:00</option>
-            <option value="12">12:30</option>
-            <option value="12">13:00</option>
-            <option value="12">13:30</option>
-            <option value="12">14:00</option>
-            <option value="12">14:30</option>
-            <option value="12">15:00</option>
-            <option value="12">15:30</option>
-            <option value="12">16:00</option>
-            <option value="12">16:30</option>
-            <option value="12">17:00</option>
-            <option value="12">17:30</option>
-            <option value="12">18:00</option>
-            <option value="12">18:30</option>
-          </select>-->
-          <footer>
-            <div class="container">
-              <p>&copy;  Copyright 2024</p>
-            </div>
-            <div class="container-a">
-              <a href="terminos_condiciones.html">Terminos y condiciones</a>
-              <a href="politicas_privacidad.html">politicas de privacidad</a>
-              <a href="contact.html">Contactanos</a>
-            </div>
-          </footer>
+    <div class="main-content">
+      <!-- Aquí va el contenido principal de la página -->
+      <form action="#">
+        <label for="Personas">Tamaño del grupo</label>
+        <select name="Cantidad de personas" id="Personas">
+          <option value="1">1 persona</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+          <option value="5">5 personas</option>
+          <option value="6">6 personas</option>
+        </select>
+        <label for="Fecha">Fecha</label>
+        <input type="date" id="Fecha" name="Fecha">
+        <label for="Horario">Horario</label>
+        <select name="Horario" id="Horario">
+          <option value="12">12:00</option>
+          <option value="12:30">12:30</option>
+          <option value="13:00">13:00</option>
+          <!-- Añade más opciones según necesites -->
+        </select>
+      </form>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; Copyright 2024</p>
+      </div>
+      <div class="container-a">
+        <a href="terminos_condiciones.html">Términos y condiciones</a>
+        <a href="politicas_privacidad.html">Políticas de privacidad</a>
+        <a href="contact.html">Contáctanos</a>
+      </div>
+    </footer>
 
     <script src="/script/script.js"></script>
   </body>

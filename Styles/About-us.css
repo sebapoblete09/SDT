@@ -11,7 +11,7 @@ html {
 }
 
 body {
-    background-color: #444;
+    background-color: #323232;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     color: whitesmoke;
@@ -126,7 +126,7 @@ header {
 /* Estilos para cada sección */
 section {
     padding: 20px;
-    background-color: #444;
+    background-color: #323232;
 
 }
 
@@ -285,7 +285,7 @@ section h2 {
     min-width: 100%;
     box-sizing: border-box;
     padding: 20px;
-    background-color: #444; /* Fondo negro para el carrusel */
+    background-color: #323232; /* Fondo negro para el carrusel */
     color: white;
     z-index: 2; /* Asegura que los ítems del carrusel estén encima del fondo negro del carrusel */
 }
@@ -337,7 +337,7 @@ section h2 {
 
 
 #team {
-    background-color: #444;
+    background-color: #202020;
     padding: 40px;
     text-align: center;
 }
@@ -404,7 +404,7 @@ section h2 {
 
 
 footer {
-    background-color: black;
+    background-color: #202020;
 }
 
 footer p {

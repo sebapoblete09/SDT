@@ -1,4 +1,6 @@
-
+body{
+    background-color: #746743;
+}
 ul {
     list-style: none;
     padding: 0;

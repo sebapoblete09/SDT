@@ -10,8 +10,9 @@ html {
     scroll-behavior: smooth;
 }
 
+
 body {
-    background-color: black;
+    background-color: #323232;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     color: whitesmoke;
@@ -42,19 +43,32 @@ p {
 
 header {
     width: 100%;
-    height: 80px;
+    height: 80px; /* Asegúrate de que este valor sea suficiente */
     background-color: #e81010;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 100px;
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 0;
+    z-index: 1000;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
     border-radius: 0 0 30px 30px;
 }
+
 
 .bars {
     display: none;
 }
+
+.nav-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 
 .nav-bar ul {
     display: flex;
@@ -232,15 +246,56 @@ header {
     font-size: 25px;
 }
 
+
+
 #events-news {
     padding: 2rem;
-    background-color: #746743;
-    height: 100vh;
+    background-color: #323232;
+    color: whitesmoke;
 }
+
+.news-section {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.news-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.news-item {
+    background-color: #202020;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 250px;
+}
+
+.news-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.news-item h3 {
+    margin-top: 15px;
+    font-size: 1.5em;
+    color: #e81010;
+}
+
+.news-item p {
+    margin-top: 10px;
+    font-size: 1em;
+}
+
 
 #Adm_reserva {
     text-align: center;
-    margin: 20px 0;
+    background-color: #202020;
 }
 
 #Adm_reserva .button {
@@ -248,8 +303,117 @@ header {
     margin: 10px;
 }
 
+#vdMenu {
+    background-color: #323232;
+    min-height: calc(100vh - 80px); /* Ajusta el valor según el tamaño del footer */
+    padding: 20px;
+    padding-top: 120px; /* Ajusta si el header tiene un tamaño diferente */
+    padding-bottom: 80px; /* Espacio suficiente para el footer */
+}
+.menu-navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.menu-navigation .menu-btn {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    background-color: #e81010;
+    color: whitesmoke;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.menu-navigation .menu-btn.active {
+    background-color: #323232;
+    color: #e81010;
+}
+
+/* Oculta todas las secciones de menú por defecto */
+.menu-section {
+    display: none;
+}
+
+
+/* Muestra la sección activa */
+.menu-section.active {
+    display: block;
+}
+.menuItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid #746743; /* Línea que separa los ítems */
+    padding: 20px 0;
+    margin-bottom: 20px;
+  }
+  
+  .menuInfo {
+    flex: 1;
+    max-width: 70%; /* Controla el ancho máximo para el nombre y la descripción */
+  }
+  
+  .menuName {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left; /* Alineación a la izquierda */
+    margin: 0;
+    color: #e81010;
+  }
+  
+  .menuDescription {
+    font-size: 0.9em;
+    color: whitesmoke;
+    text-align: left;
+    margin: 5px 0 0; /* Espacio entre el nombre y la descripción */
+  }
+  
+  .menuPrice {
+    font-size: 1.5em;
+    font-weight: bold;
+    white-space: nowrap; /* Evita que el precio se rompa en varias líneas */
+    margin-left: 20px; /* Añade espacio entre el precio y el texto */
+    color: #746743;
+  }
+  
+  /* Estilo adicional para el contenedor del botón de descargar menú */
+  #vdMenu .downloadMenu-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+.downloadMenu{
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(0, 0, 0.5);
+    box-shadow: 2px 2px 10px rgb(0, 0, 0.5);
+    color: whitesmoke;
+    background-color: #e81010;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+}
+
+.downloadMenu:hover {
+    background-color: #323232;
+    color: #e81010;
+}
+
+
+
 footer {
-    background-color: black;
+    background-color: #202020;
+    color: whitesmoke;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    z-index: 1000;
 }
 
 footer p {
@@ -335,10 +499,6 @@ footer a:hover {
 
     .nav-bar.active ul {
         opacity: 1;
-    }
-
-    .nav-bar ul li a {
-        margin-bottom: 20px;
     }
 
     #hero {
