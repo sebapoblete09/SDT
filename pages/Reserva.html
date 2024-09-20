@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,30 +15,19 @@
       </div>
       <div class="nav-bar">
         <ul>
-          <li>
-            <a href="/index.html">Inicio</a>
-          </li>
-          <li>
-            <a href="/pages/About-us.html">Sobre Nosotros</a>
-          </li>
-          <li>
-            <a href="/pages/Menu.html">Menú</a>
-          </li>
-          <li>
-            <a href="/pages/Reserva.html" class="active">Reservar</a>
-          </li>
-          <li>
-            <a href="/pages/Contact.html">Contacto</a>
-          </li>
+          <li><a href="/index.html">Inicio</a></li>
+          <li><a href="/pages/About-us.html">Sobre Nosotros</a></li>
+          <li><a href="/pages/Menu.html">Menú</a></li>
+          <li><a href="/pages/Reserva.html" class="active">Reservar</a></li>
+          <li><a href="/pages/Contact.html">Contacto</a></li>
         </ul>
       </div>
     </header>
 
-    <div class="main-content">
-      <!-- Aquí va el contenido principal de la página -->
-      <form action="#">
+    <section id="res">
+      <form id="reservation-form">
         <label for="Personas">Tamaño del grupo</label>
-        <select name="Cantidad de personas" id="Personas">
+        <select name="cantidadGente" id="Personas">
           <option value="1">1 persona</option>
           <option value="2">2 personas</option>
           <option value="3">3 personas</option>
@@ -47,16 +36,24 @@
           <option value="6">6 personas</option>
         </select>
         <label for="Fecha">Fecha</label>
-        <input type="date" id="Fecha" name="Fecha">
+        <input type="date" id="Fecha" name="fechaReserva" required>
         <label for="Horario">Horario</label>
-        <select name="Horario" id="Horario">
-          <option value="12">12:00</option>
+        <select name="horario" id="Horario">
+          <option value="12:00">12:00</option>
           <option value="12:30">12:30</option>
           <option value="13:00">13:00</option>
-          <!-- Añade más opciones según necesites -->
         </select>
+    
+        <label for="Nombre">Nombre</label>
+        <input type="text" id="Nombre" placeholder="Nombre" required>
+        <label for="Correo">Correo Electrónico</label>
+        <input type="email" id="Correo" placeholder="ejemplo@gmail.com" required>
+        <button type="submit">Enviar</button>
       </form>
-    </div>
+    </section>
+    
+    
+    
 
     <footer>
       <div class="container">
@@ -70,5 +67,7 @@
     </footer>
 
     <script src="/script/script.js"></script>
+    <script src="/script/reservas.js"></script>
   </body>
 </html>
+
