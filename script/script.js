@@ -31,3 +31,5 @@ document.addEventListener('DOMContentLoaded', () => {
         nextButton.click();
     }, 5000); // Cambia la imagen cada 5 segundos
 });
+
+//validar que es un numero de telefono

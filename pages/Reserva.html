@@ -1,73 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reservar</title>
     <link rel="stylesheet" href="/Styles/reserva.css" />
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <div class="bars">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-      </div>
-      <div class="nav-bar">
-        <ul>
-          <li><a href="/index.html">Inicio</a></li>
-          <li><a href="/pages/About-us.html">Sobre Nosotros</a></li>
-          <li><a href="/pages/Menu.html">Menú</a></li>
-          <li><a href="/pages/Reserva.html" class="active">Reservar</a></li>
-          <li><a href="/pages/Contact.html">Contacto</a></li>
-        </ul>
-      </div>
+        <div class="bars">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="nav-bar">
+            <ul>
+                <li><a href="/index.html">Inicio</a></li>
+                <li><a href="/pages/About-us.html">Sobre Nosotros</a></li>
+                <li><a href="/pages/Menu.html">Menú</a></li>
+                <li><a href="/pages/Reserva.html" class="active">Reservar</a></li>
+                <li><a href="/pages/Contact.html">Contacto</a></li>
+            </ul>
+        </div>
     </header>
 
     <section id="res">
-      <form id="reservation-form">
-        <label for="Personas">Tamaño del grupo</label>
-        <select name="cantidadGente" id="Personas">
-          <option value="1">1 persona</option>
-          <option value="2">2 personas</option>
-          <option value="3">3 personas</option>
-          <option value="4">4 personas</option>
-          <option value="5">5 personas</option>
-          <option value="6">6 personas</option>
-        </select>
-        <label for="Fecha">Fecha</label>
-        <input type="date" id="Fecha" name="fechaReserva" required>
-        <label for="Horario">Horario</label>
-        <select name="horario" id="Horario">
-          <option value="12:00">12:00</option>
-          <option value="12:30">12:30</option>
-          <option value="13:00">13:00</option>
-        </select>
-    
-        <label for="Nombre">Nombre</label>
-        <input type="text" id="Nombre" placeholder="Nombre" required>
-        <label for="Correo">Correo Electrónico</label>
-        <input type="email" id="Correo" placeholder="ejemplo@gmail.com" required>
-        <button type="submit">Enviar</button>
-      </form>
+        <form id="reservation-form">
+            <label for="Nombre">Nombre</label>
+            <input type="text" id="Nombre" placeholder="Nombre" required>
+            <label for="Correo">Correo Electrónico</label>
+            <input type="email" id="Correo" placeholder="ejemplo@gmail.com" required>
+            <label for="Personas">Tamaño del grupo</label>
+            <select name="cantidadGente" id="Personas" required>
+                <option value="1">1 persona</option>
+                <option value="2">2 personas</option>
+                <option value="3">3 personas</option>
+                <option value="4">4 personas</option>
+                <option value="5">5 personas</option>
+                <option value="6">6 personas</option>
+            </select>
+            <label for="Fecha">Fecha</label>
+            <input type="date" id="Fecha" name="fechaReserva" required>
+            <label for="Horario">Horario</label>
+            <select name="horario" id="Horario" required>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+            </select>
+            <button type="button" id="elegir-mesa">Elegir Mesa</button> 
+        </form>
+
+        <div id="mesas-container" style="display: none;">
+            <h3>Elige una mesa:</h3>
+            <div id="mesas"></div>
+            <button id="confirmar-reserva" style="display: none;">Confirmar Reserva</button>
+        </div>
     </section>
-    
-    
-    
 
     <footer>
-      <div class="container">
-        <p>&copy; Copyright 2024</p>
-      </div>
-      <div class="container-a">
-        <a href="terminos_condiciones.html">Términos y condiciones</a>
-        <a href="politicas_privacidad.html">Políticas de privacidad</a>
-        <a href="contact.html">Contáctanos</a>
-      </div>
+        <div class="container">
+            <p>&copy; Copyright 2024</p>
+        </div>
+        <div class="container-a">
+            <a href="terminos_condiciones.html">Términos y condiciones</a>
+            <a href="politicas_privacidad.html">Políticas de privacidad</a>
+            <a href="contact.html">Contáctanos</a>
+        </div>
     </footer>
 
     <script src="/script/script.js"></script>
     <script src="/script/reservas.js"></script>
-  </body>
+</body>
 </html>
-

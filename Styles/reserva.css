@@ -62,6 +62,24 @@ header {
 }
 
 
+.mesa {
+    display: inline-block;
+    width: 50px; /* Ancho de las mesas */
+    height: 50px; /* Alto de las mesas */
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Forma circular */
+    margin: 10px;
+    text-align: center;
+    line-height: 50px; /* Centrar el texto verticalmente */
+    transition: background-color 0.3s;
+}
+
+.mesa.selected {
+    background-color: #4CAF50; /* Color de fondo para la mesa seleccionada */
+    color: white; /* Cambia el color del texto */
+}
+
+
 .bars {
     display: none;
 }

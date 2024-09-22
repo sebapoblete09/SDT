@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root', // Cambia esto si tu usuario no es root
   password: 'qwerasd13', // Cambia esto por tu contraseña
-  database: 'prueba2' // Cambia esto por el nombre de tu base de datos
+  database: 'sistema_reservas' // Cambia esto por el nombre de tu base de datos
 });
 
 db.connect(err => {
@@ -26,13 +26,13 @@ db.connect(err => {
   console.log('Conexión a la base de datos MySQL exitosa');
 });
 
-// Ruta para crear una nueva reserva
+// Ruta para crear una nueva reserva con el ID de la mesa
 app.post('/reservar', (req, res) => {
-  const { nombre, correo, fecha_Reserva, hora_reserva, cantidad_Gente } = req.body;
+  const { nombre, correo, fecha_reserva, hora_reserva, cantidad_personas, id_mesa } = req.body;
 
   // Primero, insertamos los datos del cliente
-  const clienteQuery = 'INSERT INTO pruebas (nombre, correo) VALUES (?, ?)';
-  
+  const clienteQuery = 'INSERT INTO clientes (nombre_cliente, correo_cliente) VALUES (?, ?)';
+
   db.query(clienteQuery, [nombre, correo], (err, result) => {
     if (err) {
       console.error('Error insertando cliente:', err);
@@ -40,14 +40,15 @@ app.post('/reservar', (req, res) => {
       return;
     }
 
-    const id_cliente = result.insertId; // Obtenemos el id del cliente insertado
+    const id_cliente = result.insertId; // Obtenemos el ID del cliente insertado
 
-    // Ahora insertamos la reserva usando el id_cliente
-    const reservaQuery = `INSERT INTO reserva 
-      (fecha_Reserva, hora_reserva, cantidad_Gente, estado_reserva, id_cliente) 
-      VALUES (?, ?, ?, 'pendiente', ?)`;
+    // Ahora insertamos la reserva usando el id_cliente y id_mesa
+    const reservaQuery = `
+      INSERT INTO reservas 
+      (fecha_reserva, hora_reserva, cantidad_personas, estado_reserva, id_cliente, id_mesa) 
+      VALUES (?, ?, ?, 'pendiente', ?, ?)`;
 
-    db.query(reservaQuery, [fecha_Reserva, hora_reserva, cantidad_Gente, id_cliente], (err, result) => {
+    db.query(reservaQuery, [fecha_reserva, hora_reserva, cantidad_personas, id_cliente, id_mesa], (err, result) => {
       if (err) {
         console.error('Error insertando reserva:', err);
         res.status(500).json({ error: 'Error al insertar la reserva' });
@@ -56,44 +57,6 @@ app.post('/reservar', (req, res) => {
 
       res.status(200).json({ message: 'Reserva creada exitosamente' });
     });
-  });
-});
-
-// Ruta para obtener las reservas por cliente (opcional)
-app.get('/reservas/:correo', (req, res) => {
-  const { correo } = req.params;
-
-  const query = `SELECT r.fecha_Reserva, r.hora_reserva, r.cantidad_Gente, r.estado_reserva
-                 FROM reserva r
-                 JOIN pruebas p ON r.id_cliente = p.id_cliente
-                 WHERE p.correo = ?`;
-
-  db.query(query, [correo], (err, results) => {
-    if (err) {
-      console.error('Error obteniendo reservas:', err);
-      res.status(500).json({ error: 'Error al obtener las reservas' });
-      return;
-    }
-
-    res.status(200).json(results);
-  });
-});
-
-// Ruta para actualizar el estado de una reserva (opcional)
-app.put('/reservas/:id', (req, res) => {
-  const { id } = req.params;
-  const { estado_reserva } = req.body;
-
-  const query = 'UPDATE reserva SET estado_reserva = ? WHERE id_reserva = ?';
-
-  db.query(query, [estado_reserva, id], (err, result) => {
-    if (err) {
-      console.error('Error actualizando reserva:', err);
-      res.status(500).json({ error: 'Error al actualizar la reserva' });
-      return;
-    }
-
-    res.status(200).json({ message: 'Estado de la reserva actualizado exitosamente' });
   });
 });
 
