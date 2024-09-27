@@ -13,9 +13,9 @@ app.use(cors());
 // Conexión a la base de datos MySQL
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root', // Cambia esto si tu usuario no es root
-  password: 'qwerasd13', // Cambia esto por tu contraseña
-  database: 'sistema_reservas' // Cambia esto por el nombre de tu base de datos
+  user: 'root',
+  password: 'qwerasd13',
+  database: 'sistema_reservas'
 });
 
 db.connect(err => {
@@ -26,41 +26,113 @@ db.connect(err => {
   console.log('Conexión a la base de datos MySQL exitosa');
 });
 
-// Ruta para crear una nueva reserva con el ID de la mesa
+//funciones para las valdiaciones:
+
+//valdiar fecha reserva
+function validarFechaReserva(fecha, hora){
+  const fechaActual = new Date();
+  const fechaReserva = new Date(`${fecha}T${hora}`);
+
+  return fechaReserva >= fechaActual;
+
+}
+
+
+
+// Ruta para crear una nueva reserva
 app.post('/reservar', (req, res) => {
-  const { nombre, correo, fecha_reserva, hora_reserva, cantidad_personas, id_mesa } = req.body;
+  const { nombre, correo, celular, fecha_reserva, hora_reserva, cantidad_gente, mesa } = req.body;
+  console.log(req.body);
 
-  // Primero, insertamos los datos del cliente
-  const clienteQuery = 'INSERT INTO clientes (nombre_cliente, correo_cliente) VALUES (?, ?)';
+  // Validar campos vacíos
+  
+  // Validar que la fecha y hora no sean en el pasado
+  if (!validarFechaReserva(fecha_reserva, hora_reserva)) {
+    return res.status(400).json({ success: false, message: 'No puedes reservar una fecha y hora en el pasado' });
+  }
 
-  db.query(clienteQuery, [nombre, correo], (err, result) => {
+  // Buscar si el cliente ya existe en la base de datos
+  const clienteQuery = 'SELECT id_cliente FROM clientes WHERE correo_cliente = ?';
+
+  db.query(clienteQuery, [correo], (err, results) => {
     if (err) {
-      console.error('Error insertando cliente:', err);
-      res.status(500).json({ error: 'Error al insertar el cliente' });
-      return;
+      console.error('Error buscando cliente:', err);
+      return res.status(500).json({ error: 'Error al buscar el cliente' });
     }
 
-    const id_cliente = result.insertId; // Obtenemos el ID del cliente insertado
+    let id_cliente;
 
-    // Ahora insertamos la reserva usando el id_cliente y id_mesa
-    const reservaQuery = `
-      INSERT INTO reservas 
-      (fecha_reserva, hora_reserva, cantidad_personas, estado_reserva, id_cliente, id_mesa) 
-      VALUES (?, ?, ?, 'pendiente', ?, ?)`;
+    if (results.length > 0) {
+      // Cliente ya existe
+      id_cliente = results[0].id_cliente;
+      verificarMesaYCrearReserva(id_cliente);
+    } else {
+      // Cliente no existe, insertarlo
+      const insertClienteQuery = 'INSERT INTO clientes (nombre_cliente, correo_cliente, celular) VALUES (?, ?, ?)';
+      db.query(insertClienteQuery, [nombre, correo, celular], (err, result) => {
+        if (err) {
+          if (err.code === 'ER_DUP_ENTRY') {
+            db.query(clienteQuery, [correo], (err, results) => {
+              if (err) {
+                console.error('Error buscando cliente:', err);
+                return res.status(500).json({ error: 'Error al buscar el cliente' });
+              }
+              id_cliente = results[0].id_cliente;
+              verificarMesaYCrearReserva(id_cliente);
+            });
+          } else {
+            console.error('Error insertando cliente:', err);
+            return res.status(500).json({ error: 'Error al insertar el cliente' });
+          }
+        } else {
+          id_cliente = result.insertId;
+          verificarMesaYCrearReserva(id_cliente);
+        }
+      });
+    }
+  });
 
-    db.query(reservaQuery, [fecha_reserva, hora_reserva, cantidad_personas, id_cliente, id_mesa], (err, result) => {
+  function verificarMesaYCrearReserva(id_cliente) {
+    const verificarMesaOcupadaQuery = `
+      SELECT * FROM reserva 
+      WHERE id_mesa = ? AND fecha_reserva = ? AND hora_reserva = ?`;
+
+    db.query(verificarMesaOcupadaQuery, [mesa, fecha_reserva, hora_reserva], (err, results) => {
       if (err) {
-        console.error('Error insertando reserva:', err);
-        res.status(500).json({ error: 'Error al insertar la reserva' });
-        return;
+        console.error('Error al verificar la mesa:', err);
+        return res.status(500).json({ error: 'Error al verificar la mesa' });
       }
 
-      res.status(200).json({ message: 'Reserva creada exitosamente' });
+      if (results.length > 0) {
+        return res.status(400).json({ success: false, message: 'La mesa seleccionada ya está reservada para esa fecha y hora' });
+      }
+
+      // Si la mesa no está ocupada, crear la reserva
+      createReservation(id_cliente);
     });
-  });
+  }
+
+  function createReservation(id_cliente) {
+    const reservaQuery = `
+      INSERT INTO reserva 
+      (fecha_reserva, hora_reserva, cantidad_gente, estado_reserva, id_mesa, id_cliente) 
+      VALUES (?, ?, ?, 'pendiente', ?, ?)`;
+
+    db.query(reservaQuery, [fecha_reserva, hora_reserva, cantidad_gente, mesa, id_cliente], (err, result) => {
+      if (err) {
+        console.error('Error insertando reserva:', err);
+        return res.status(500).json({ error: 'Error al insertar la reserva' });
+      }
+
+      res.status(200).json({ success: true, message: 'Reserva creada exitosamente' });
+    });
+  }
 });
+
 
 // Servidor escuchando en el puerto 3000
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
 });
+
+

@@ -44,14 +44,14 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
         nombre,
         correo,
         celular,
-        cantidad_personas: cantidadGente,
+        cantidad_gente: cantidadGente,
         fecha_reserva: fechaReserva,
         hora_reserva: horario,
         mesa
     };
 
     // Enviar la solicitud al backend
-    fetch('/reservar', {
+    fetch('http://localhost:3000/reservar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
