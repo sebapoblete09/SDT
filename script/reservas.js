@@ -1,76 +1,72 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('elegir-mesa').addEventListener('click', function() {
-        const mesasContainer = document.getElementById('mesas-container');
-        const mesasDiv = document.getElementById('mesas');
-        mesasDiv.innerHTML = ''; // Limpia el contenedor de mesas
+document.getElementById('elegir-mesa').addEventListener('click', function() {
+    // Mostrar las mesas
+    const mesasContainer = document.getElementById('mesas-container');
+    mesasContainer.style.display = 'block';
 
-        // Muestra las mesas disponibles
-        for (let i = 1; i <= 6; i++) {
-            const mesa = document.createElement('div');
-            mesa.className = 'mesa';
-            mesa.innerText = `Mesa ${i}`;
-            mesa.dataset.idMesa = i; // Asigna el ID de la mesa
-            mesa.style.cursor = 'pointer'; // Cambia el cursor a pointer
+    // Simulación de mesas disponibles
+    const mesas = document.getElementById('mesas');
+    mesas.innerHTML = '';  // Limpiar cualquier contenido previo
 
-            mesa.addEventListener('click', function() {
-                // Resalta la mesa seleccionada
-                document.querySelectorAll('.mesa').forEach(m => m.classList.remove('selected'));
-                mesa.classList.add('selected');
-            });
+    for (let i = 1; i <= 6; i++) {
+        const mesaBtn = document.createElement('button');
+        mesaBtn.innerText = `Mesa ${i}`;
+        mesaBtn.classList.add('mesa-btn');
+        mesaBtn.dataset.mesaId = i;
 
-            mesasDiv.appendChild(mesa);
-        }
-
-        mesasContainer.style.display = 'block'; // Muestra el contenedor de mesas
-        document.getElementById('confirmar-reserva').style.display = 'block'; // Muestra el botón de confirmar
-    });
-
-    document.getElementById('confirmar-reserva').addEventListener('click', function() {
-        // Verifica que se haya seleccionado una mesa
-        const selectedMesa = document.querySelector('.mesa.selected');
-        if (!selectedMesa) {
-            alert('Por favor, selecciona una mesa.');
-            return;
-        }
-
-        // Obtiene los valores de los campos del formulario
-        const nombre = document.getElementById('Nombre').value;
-        const correo = document.getElementById('Correo').value;
-        const fechaReserva = document.getElementById('Fecha').value;
-        const horaReserva = document.getElementById('Horario').value;
-        const cantidadPersonas = document.getElementById('Personas').value;
-        const idMesa = selectedMesa.dataset.idMesa; // ID de la mesa seleccionada
-
-        // Envía los datos al back-end
-        fetch('http://localhost:3000/reservar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                nombre,
-                correo,
-                fecha_reserva: fechaReserva,
-                hora_reserva: horaReserva,
-                cantidad_personas: cantidadPersonas,
-                id_mesa: idMesa // Incluyendo el id_mesa en el cuerpo de la solicitud
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la reserva');
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(data.message); // Muestra el mensaje de éxito
-            document.getElementById('reservation-form').reset(); // Resetea el formulario
-            mesasContainer.style.display = 'none'; // Oculta las mesas
-            document.getElementById('confirmar-reserva').style.display = 'none'; // Oculta el botón de confirmar
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Hubo un problema al realizar la reserva. Inténtalo de nuevo.');
+        mesaBtn.addEventListener('click', function() {
+            // Selecciona la mesa y muestra el botón de confirmación
+            document.querySelectorAll('.mesa-btn').forEach(btn => btn.classList.remove('selected'));
+            mesaBtn.classList.add('selected');
+            document.getElementById('confirmar-reserva').style.display = 'block';
+            mesaSeleccionada = i;
         });
+
+        mesas.appendChild(mesaBtn);
+    }
+});
+
+document.getElementById('confirmar-reserva').addEventListener('click', function() {
+    const nombre = document.getElementById('Nombre').value;
+    const correo = document.getElementById('Correo').value;
+    const celular = document.getElementById('celular').value;
+    const cantidadGente = document.getElementById('Personas').value;
+    const fechaReserva = document.getElementById('Fecha').value;
+    const horario = document.getElementById('Horario').value;
+    const mesa = mesaSeleccionada;
+
+    if (!mesa) {
+        alert("Por favor selecciona una mesa.");
+        return;
+    }
+
+    // Crear el objeto con los datos de la reserva
+    const reservaData = {
+        nombre,
+        correo,
+        celular,
+        cantidad_personas: cantidadGente,
+        fecha_reserva: fechaReserva,
+        hora_reserva: horario,
+        mesa
+    };
+
+    // Enviar la solicitud al backend
+    fetch('/reservar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reservaData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Reserva realizada con éxito');
+        } else {
+            alert('Hubo un problema con la reserva.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
 });
