@@ -9,7 +9,7 @@ document.getElementById('elegir-mesa').addEventListener('click', function() {
 
     for (let i = 1; i <= 6; i++) {
         const mesaBtn = document.createElement('button');
-        mesaBtn.innerText = `Mesa ${i}`;
+        mesaBtn.innerText = `${i}`;
         mesaBtn.classList.add('mesa-btn');
         mesaBtn.dataset.mesaId = i;
 

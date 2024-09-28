@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+
 const app = express();
 const port = 3000;
 
@@ -26,7 +27,6 @@ db.connect(err => {
   console.log('Conexión a la base de datos MySQL exitosa');
 });
 
-//funciones para las valdiaciones:
 
 //valdiar fecha reserva
 function validarFechaReserva(fecha, hora){
@@ -124,6 +124,7 @@ app.post('/reservar', (req, res) => {
         return res.status(500).json({ error: 'Error al insertar la reserva' });
       }
 
+      
       res.status(200).json({ success: true, message: 'Reserva creada exitosamente' });
     });
   }
