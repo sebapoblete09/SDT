@@ -22,18 +22,24 @@ body {
 
 
 
-h1 {
-    font-size: 4.5em;
+#reservation-form h1{
+    font-size: 3em;
+    text-align: center;
+    padding: 15px;
 }
 
-h2 {
-    font-size: 2.7em;
-    color: whitesmoke;
+#mesas-container h3{
+    font-size: 1.5em;
+    text-align: center;
+    padding: 30px;
 }
 
-h3 {
-    font-size: 2em;
+#mesas-container-cancelar h3{
+    font-size: 1.5em;
+    text-align: center;
+    padding: 30px;
 }
+
 
 p {
     font-size: 1.24em;
@@ -64,6 +70,21 @@ header {
 
  
 .mesa-btn {
+    display: inline-block;
+    width: 100px; /* Ancho de las mesas */
+    height: 100px; /* Alto de las mesas */
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Forma circular */
+    margin: 10px;
+    text-align: center;
+    line-height: 50px; /* Centrar el texto verticalmente */
+    transition: background-color 0.3s;
+    background-color: #746743;
+    font-size: 30px;
+    
+}
+
+.mesa-btn-cancel {
     display: inline-block;
     width: 100px; /* Ancho de las mesas */
     height: 100px; /* Alto de las mesas */
@@ -158,6 +179,10 @@ header {
 .button:hover {
     background-color: #323232;
     color: #e81010;
+}
+
+.reservs{
+    display: flex;
 }
 
 #res {

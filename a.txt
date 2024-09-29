@@ -1,0 +1,222 @@
+app.delete('/cancelar',(req, res)=> {
+
+  const { id_res} = req.body;
+  console.log(req.body);
+
+  //buscar si existe la reserva
+  const buscarQuery = 'select * from reserva where id_reserva = ?';
+ 
+  db.query(buscarQuery, [id_res], (err, result) => {
+    if (err) {
+      console.error('Error eliminando reserva:', err);
+      return res.status(500).json({ error: 'Error al eliminar la reserva' });
+    }
+    if (result.length ==0){
+      return res.status(400).json({ success: false, message: 'No existe ninguna reserva con ese codigo' });
+    }
+
+    eliminarReserva(id_res)
+
+  });
+  function eliminarReserva(id_res){
+    const clienteQuery = 'DELETE  from reserva where id_reserva = ?';
+
+    db.query(clienteQuery, [id_res],(err,result)=>{
+      if(err){
+        console.error('error eliminando la reserva');
+        return res.status(500).json({ error: 'Error al eliminar la reserva' });
+      };
+
+      res.status(200).json({ success: true, message: 'Reserva eliminada exitosamente' });
+
+    })
+  }
+
+});
+
+
+
+document.getElementById('cancelar-reserva').addEventListener('click', function(){
+
+
+    const nombre = document.getElementById('Nombre').value;
+    const correo = document.getElementById('Correo').value;
+    const celular = document.getElementById('Celular').value;
+    const codReserva = document.getElementById('id-reserva').value;
+
+    if(!nombre || !correo || !celular || !codReserva){
+        alert("Por favor complete todos los campos")
+        return
+    };
+
+    // Validar formato de correo
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón general para validar el formato de un correo
+    if (!emailPattern.test(correo)) {
+        alert("Por favor ingrese un correo válido");
+        return;
+    }
+
+    //crear el objeto con los datos del cliente
+    const reserveData = {
+        nombre,
+        correo,
+        celular,
+        id_res:codReserva
+    };
+
+    fetch('http://localhost:3000/cancelar',{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reserveData)
+    })
+    .then(response => response.json())
+    .then (data =>{
+        if(data.success){
+            alert('Reserva eliminada con exito');
+        }
+        else{
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+})
+
+
+--------------
+
+
+// Ruta para crear una nueva reserva
+app.delete('/reservar', (req, res) => {
+  const { nombre, correo, celular, fecha_reserva, hora_reserva, cantidad_gente, mesa } = req.body;
+  console.log(req.body);
+ 
+  
+  // Validar que la fecha y hora no sean en el pasado
+  if (!validarFechaReserva(fecha_reserva, hora_reserva)) {
+    return res.status(400).json({ success: false, message: 'No puedes reservar una fecha y hora en el pasado' });
+  }
+
+  // Buscar si el cliente ya existe en la base de datos
+  const clienteQuery = 'SELECT id_cliente FROM clientes WHERE correo_cliente = ?';
+
+  db.query(clienteQuery, [correo], (err, results) => {
+    if (err) {
+      console.error('Error buscando cliente:', err);
+      return res.status(500).json({ error: 'Error al buscar el cliente' });
+    }
+
+    let id_cliente;
+
+    if (results.length > 0) {
+      // Cliente ya existe
+      id_cliente = results[0].id_cliente;
+      verificarMesaYCrearReserva(id_cliente);
+    } else {
+      // Cliente no existe, insertarlo
+      const insertClienteQuery = 'INSERT INTO clientes (nombre_cliente, correo_cliente, celular) VALUES (?, ?, ?)';
+      db.query(insertClienteQuery, [nombre, correo, celular], (err, result) => {
+        if (err) {
+          if (err.code === 'ER_DUP_ENTRY') {
+            db.query(clienteQuery, [correo], (err, results) => {
+              if (err) {
+                console.error('Error buscando cliente:', err);
+                return res.status(500).json({ error: 'Error al buscar el cliente' });
+              }
+              id_cliente = results[0].id_cliente;
+              verificarMesaYCrearReserva(id_cliente);
+            });
+          } else {
+            console.error('Error insertando cliente:', err);
+            return res.status(500).json({ error: 'Error al insertar el cliente' });
+          }
+        } else {
+          id_cliente = result.insertId;
+          verificarMesaYCrearReserva(id_cliente);
+        }
+      });
+    }
+  });
+
+  function verificarMesaYCrearReserva(id_cliente) {
+    const verificarMesaOcupadaQuery = `
+      SELECT * FROM reserva 
+      WHERE id_mesa = ? AND fecha_reserva = ? AND hora_reserva = ?`;
+
+    db.query(verificarMesaOcupadaQuery, [mesa, fecha_reserva, hora_reserva], (err, results) => {
+      if (err) {
+        console.error('Error al verificar la mesa:', err);
+        return res.status(500).json({ error: 'Error al verificar la mesa' });
+      }
+
+      if (results.length > 0) {
+        return res.status(400).json({ success: false, message: 'La mesa seleccionada ya está reservada para esa fecha y hora' });
+      }
+
+      // Si la mesa no está ocupada, crear la reserva
+      createReservation(id_cliente);
+    });
+  }
+
+  function createReservation(id_cliente) {
+    const reservaQuery = `
+      INSERT INTO reserva 
+      (fecha_reserva, hora_reserva, cantidad_gente, estado_reserva, id_mesa, id_cliente) 
+      VALUES (?, ?, ?, 'pendiente', ?, ?)`;
+
+    db.query(reservaQuery, [fecha_reserva, hora_reserva, cantidad_gente, mesa, id_cliente], (err, result) => {
+      if (err) {
+        console.error('Error insertando reserva:', err);
+        return res.status(500).json({ error: 'Error al insertar la reserva' });
+      }
+
+      
+      res.status(200).json({ success: true, message: 'Reserva creada exitosamente' });
+    });
+  }
+});
+
+
+app.delete('/cancelar',(req, res)=> {
+
+  const  id_res = req.params.id;
+  console.log(req.body);
+
+  //buscar si existe la reserva
+  const buscarQuery = 'select * from reserva where id_reserva = ?';
+ 
+  db.query(buscarQuery, [id_res], (err, result) => {
+    if (err) {
+      console.error('Error eliminando reserva:', err);
+      return res.status(500).json({ error: 'Error al eliminar la reserva' });
+    }
+    if (result.length ==0){
+      return res.status(400).json({ success: false, message: 'No existe ninguna reserva con ese codigo' });
+    }
+
+    eliminarReserva(id_res)
+
+  });
+  function eliminarReserva(id_res){
+    const clienteQuery = 'DELETE  from reserva where id_reserva = ?';
+
+    db.query(clienteQuery, [id_res],(err,result)=>{
+      if(err){
+        console.error('error eliminando la reserva');
+        return res.status(500).json({ error: 'Error al eliminar la reserva' });
+      };
+
+      res.status(200).json({ success: true, message: 'Reserva eliminada exitosamente' });
+
+    })
+  }
+
+});
+
+
+
+
+

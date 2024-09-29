@@ -37,14 +37,10 @@ function validarFechaReserva(fecha, hora){
 
 }
 
-
-
-// Ruta para crear una nueva reserva
 app.post('/reservar', (req, res) => {
   const { nombre, correo, celular, fecha_reserva, hora_reserva, cantidad_gente, mesa } = req.body;
   console.log(req.body);
-
-  // Validar campos vacíos
+ 
   
   // Validar que la fecha y hora no sean en el pasado
   if (!validarFechaReserva(fecha_reserva, hora_reserva)) {
@@ -126,6 +122,70 @@ app.post('/reservar', (req, res) => {
 
       
       res.status(200).json({ success: true, message: 'Reserva creada exitosamente' });
+    });
+  }
+});
+
+
+// Ruta para cancelar una nueva reserva
+app.put('/cancelar', (req, res) => {
+  const { nombre, correo, celular,codReserva} = req.body;
+  console.log(req.body);
+ 
+  
+
+  // Buscar si el cliente ya existe en la base de datos
+  const clienteQuery = 'SELECT id_cliente FROM clientes WHERE correo_cliente = ?';
+
+  db.query(clienteQuery, [correo], (err, results) => {
+    if (err) {
+      console.error('Error buscando cliente:', err);
+      return res.status(500).json({ error: 'Error al buscar el cliente' });
+    }
+
+    let id_cliente;
+
+    if (results.length > 0) {
+      // Cliente ya existe
+      id_cliente = results[0].id_cliente;
+
+      //verificar si al cliente le corresponde ese codigo de reserva
+      const verificarCliente = 'SELECT * from reserva where id_Cliente = ? and id_reserva = ?'
+
+      db.query(verificarCliente, [id_cliente, codReserva], (err,results) => {
+        if (err) {
+          console.error('Error verificando cliente:',err);
+          return results.status(500).json({error: 'erros verificando reserva del cliente'});
+        }
+
+        if(results.length>0){
+          cancelReservation(id_cliente); 
+        } else{return res.status(400).json({ success: false, message: 'No tienes ninguna reserva con este codigo' });}
+        
+      })
+      cancelReservation(id_cliente);
+    } else {
+      return res.status(400).json({ success: false, message: 'los datos del cliente no existen, intente nuevamente' });
+    }
+  });
+
+
+  
+
+  function cancelReservation(id_cliente) {
+    const reservaQuery = `
+      update reserva 
+      set estado_reserva = 'cancelada'
+      where id_reserva = ? `;
+
+    db.query(reservaQuery, [codReserva], (err, result) => {
+      if (err) {
+        console.error('Error cancelando reserva:', err);
+        return res.status(500).json({ error: 'Error al cancelar la reserva' });
+      }
+
+      
+      res.status(200).json({ success: true, message: 'Reserva cancelada exitosamente' });
     });
   }
 });

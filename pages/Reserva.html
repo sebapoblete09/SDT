@@ -23,50 +23,77 @@
             </ul>
         </div>
     </header>
+    <div class="reservs">
+        <section id="res">
+            <form id="reservation-form">
+                <h1>Reserva ya!</h1>
+                <label for="Nombre">Nombre</label>
+                <input type="text" id="Nombre" name="nombre" placeholder="Nombre" required>
+    
+                <label for="Correo">Correo Electrónico</label>
+                <input type="email" id="Correo" name="correo" placeholder="ejemplo@gmail.com" required>
+    
+                <label for="celular">Celular:</label>
+                <input type="tel" id="celular" name="celular" maxlength="9" required>
+    
+                <label for="Personas">Tamaño del grupo</label>
+                <select name="cantidadGente" id="Personas" required>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                    <option value="4">4 personas</option>
+                    <option value="5">5 personas</option>
+                    <option value="6">6 personas</option>
+                </select>
+    
+                <label for="Fecha">Fecha</label>
+                <input type="date" id="Fecha" name="fechaReserva" required>
+    
+                <label for="Horario">Horario</label>
+                <select name="horario" id="Horario" required>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                </select>
+    
+                <!-- Botón para elegir mesa -->
+                <button type="button" id="elegir-mesa">Elegir Mesa</button>
+            </form>
+    
+            <!-- Contenedor para mostrar las mesas -->
+            <div id="mesas-container" style="display: none;">
+                <h3>Elige una mesa:</h3>
+                <div id="mesas"></div>
+                <!-- Botón para confirmar la reserva -->
+                <button id="confirmar-reserva" style="display: none;">Confirmar Reserva</button>
+            </div>
+        </section>
 
-    <section id="res">
-        <form id="reservation-form">
-            <label for="Nombre">Nombre</label>
-            <input type="text" id="Nombre" name="nombre" placeholder="Nombre" required>
+        <section id="res">
+            <form id="reservation-form">
+                <h1>Cancelacion reserva</h1>
+                <label for="Nombre">Nombre</label>
+                <input type="text" id="Nombre-cancelar" name="nombre" placeholder="Nombre" required>
+    
+                <label for="Correo">Correo Electrónico</label>
+                <input type="email" id="Correo-cancelar" name="correo" placeholder="ejemplo@gmail.com" required>
+    
+                <label for="celular">Celular:</label>
+                <input type="tel" id="celular-cancelar" name="celular" maxlength="9" required>
 
-            <label for="Correo">Correo Electrónico</label>
-            <input type="email" id="Correo" name="correo" placeholder="ejemplo@gmail.com" required>
+                <label for="codReserva">Codigo de la reserva:</label>
+                <input type="number" id="codReserva">
+            </form>
+            <button id="cancelar-reserva" >Confirmar Cancelacion</button>
+        </section>
 
-            <label for="celular">Celular:</label>
-            <input type="tel" id="celular" name="celular" maxlength="9" required>
+    </div>
 
-            <label for="Personas">Tamaño del grupo</label>
-            <select name="cantidadGente" id="Personas" required>
-                <option value="1">1 persona</option>
-                <option value="2">2 personas</option>
-                <option value="3">3 personas</option>
-                <option value="4">4 personas</option>
-                <option value="5">5 personas</option>
-                <option value="6">6 personas</option>
-            </select>
+    
 
-            <label for="Fecha">Fecha</label>
-            <input type="date" id="Fecha" name="fechaReserva" required>
 
-            <label for="Horario">Horario</label>
-            <select name="horario" id="Horario" required>
-                <option value="12:00">12:00</option>
-                <option value="12:30">12:30</option>
-                <option value="13:00">13:00</option>
-            </select>
 
-            <!-- Botón para elegir mesa -->
-            <button type="button" id="elegir-mesa">Elegir Mesa</button>
-        </form>
-
-        <!-- Contenedor para mostrar las mesas -->
-        <div id="mesas-container" style="display: none;">
-            <h3>Elige una mesa:</h3>
-            <div id="mesas"></div>
-            <!-- Botón para confirmar la reserva -->
-            <button id="confirmar-reserva" style="display: none;">Confirmar Reserva</button>
-        </div>
-    </section>
+    
 
     <footer>
         <div class="container">

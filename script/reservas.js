@@ -25,7 +25,9 @@ document.getElementById('elegir-mesa').addEventListener('click', function() {
     }
 });
 
+
 document.getElementById('confirmar-reserva').addEventListener('click', function() {
+
     const nombre = document.getElementById('Nombre').value;
     const correo = document.getElementById('Correo').value;
     const celular = document.getElementById('celular').value;
@@ -34,10 +36,20 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
     const horario = document.getElementById('Horario').value;
     const mesa = mesaSeleccionada;
 
-    if (!mesa) {
-        alert("Por favor selecciona una mesa.");
+    if(!nombre || !correo || !celular|| !fechaReserva || !horario || !cantidadGente || !mesa){
+        alert("Por favor complete todos los campos")
+        return
+    };
+
+    // Validar formato de correo
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón general para validar el formato de un correo
+    if (!emailPattern.test(correo)) {
+        alert("Por favor ingrese un correo válido");
         return;
     }
+
+
+
 
     // Crear el objeto con los datos de la reserva
     const reservaData = {
@@ -59,14 +71,75 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
         body: JSON.stringify(reservaData)
     })
     .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Reserva realizada con éxito');
-        } else {
-            alert('Hubo un problema con la reserva.');
+    .then (data =>{
+        if(data.success){
+            alert('Reserva creada con exito');
+        }
+        else{
+            alert(data.message);
         }
     })
     .catch(error => {
         console.error('Error:', error);
     });
 });
+
+//eliminar reserva
+
+document.getElementById('cancelar-reserva').addEventListener('click', function() {
+
+    const nombre = document.getElementById('Nombre-cancelar').value;
+    const correo = document.getElementById('Correo-cancelar').value;
+    const celular = document.getElementById('celular-cancelar').value;
+    const codReserva = parseInt(document.getElementById('codReserva').value);
+    
+
+    if(!nombre || !correo || !celular || !codReserva){
+        alert("Por favor complete todos los campos")
+        return
+    };
+
+    // Validar formato de correo
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón general para validar el formato de un correo
+    if (!emailPattern.test(correo)) {
+        alert("Por favor ingrese un correo válido");
+        return;
+    }
+
+
+
+
+    // Crear el objeto con los datos de la reserva
+    const reservaData = {
+        nombre,
+        correo,
+        celular,
+        codReserva
+    };
+
+    // Enviar la solicitud al backend
+    fetch('http://localhost:3000/cancelar', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reservaData)
+    })
+    .then(response => response.json())
+    .then (data =>{
+        if(data.success){
+            alert('Reserva cancelada con exito');
+        }
+        else{
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+
+
+
+
