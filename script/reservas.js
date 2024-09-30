@@ -63,7 +63,7 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
     };
 
     // Enviar la solicitud al backend
-    fetch('https://proyecto1-mocha.vercel.app/pages/Reserva.html/reservar', {
+    fetch('http://localhost:3000/reservar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ document.getElementById('cancelar-reserva').addEventListener('click', function()
     };
 
     // Enviar la solicitud al backend
-    fetch('https://proyecto1-mocha.vercel.app/pages/Reserva.html/cancelar', {
+    fetch('http://localhost:3000/cancelar', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

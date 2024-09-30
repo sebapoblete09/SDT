@@ -1,3 +1,7 @@
+create database sistema_reservas;
+
+use sistema_reservas;
+
 CREATE TABLE `administrador` (
   `id_admin` int NOT NULL AUTO_INCREMENT,
   `nombre_admin` varchar(100) DEFAULT NULL,

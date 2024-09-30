@@ -1,4 +1,4 @@
-require('dotenv').config(); // Cargar variables de entorno
+
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
@@ -9,8 +9,7 @@ const port = 3000;
 
 // Middleware para parsear JSON y habilitar CORS
 app.use(bodyParser.json());
-app.use(cors({
-  origin: 'https://proyecto1-mocha.vercel.app' // Cambia esto por tu URL de frontend
+app.use(cors({// Cambia esto por tu URL de frontend
 }));
 
 // Conexión a la base de datos MySQL
@@ -18,7 +17,7 @@ const db = mysql.createConnection({
   host:'localhost',
   user: 'root',
   password: 'qwerasd13',
-  database: 'sistema_reserva' ,
+  database: 'sistema_reservas' ,
 });
 
 db.connect(err => {
