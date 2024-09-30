@@ -63,7 +63,7 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
     };
 
     // Enviar la solicitud al backend
-    fetch('http://localhost:3000/reservar', {
+    fetch('https://proyecto1-e1ed66km9-sebas-projects-14f03402.vercel.app/reservar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ document.getElementById('cancelar-reserva').addEventListener('click', function()
     };
 
     // Enviar la solicitud al backend
-    fetch('http://localhost:3000/cancelar', {
+    fetch('https://proyecto1-e1ed66km9-sebas-projects-14f03402.vercel.appcancelar', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
