@@ -10,7 +10,7 @@ const port = 3000;
 // Middleware para parsear JSON y habilitar CORS
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://proyecto1-mocha.vercel.app' // Permitir solo este origen
+  origin: 'https://vercel.com/sebas-projects-14f03402/proyecto1/3EZiqq3fMPHnkAC3WzkhnRNmadQd' // Permitir solo este origen
 }));
 
 
