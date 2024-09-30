@@ -63,7 +63,7 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
     };
 
     // Enviar la solicitud al backend
-    fetch('https://vercel.com/sebas-projects-14f03402/proyecto1/4YiD5P3Syiqi9bTheJ3GUtfBC7f1/reservar', {
+    fetch('https://proyecto1-mocha.vercel.app/reservar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -118,7 +118,7 @@ document.getElementById('cancelar-reserva').addEventListener('click', function()
     };
 
     // Enviar la solicitud al backend
-    fetch('https://vercel.com/sebas-projects-14f03402/proyecto1/4YiD5P3Syiqi9bTheJ3GUtfBC7f1/cancelar', {
+    fetch('https://proyecto1-mocha.vercel.app/cancelar', {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'

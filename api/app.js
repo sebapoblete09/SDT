@@ -1,8 +1,8 @@
+require('dotenv').config(); // Cargar variables de entorno
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
 
 const app = express();
 const port = 3000;
@@ -10,12 +10,10 @@ const port = 3000;
 // Middleware para parsear JSON y habilitar CORS
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'https://vercel.com/sebas-projects-14f03402/proyecto1/3EZiqq3fMPHnkAC3WzkhnRNmadQd' // Permitir solo este origen
+  origin: 'https://proyecto1-mocha.vercel.app' // Cambia esto por tu URL de frontend
 }));
 
-
 // Conexión a la base de datos MySQL
-
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -23,7 +21,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
 });
-
 
 db.connect(err => {
   if (err) {
