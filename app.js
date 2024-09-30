@@ -11,12 +11,14 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+
 // Conexión a la base de datos MySQL
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'qwerasd13',
   database: 'sistema_reservas'
+  
 });
 
 db.connect(err => {
@@ -112,7 +114,7 @@ app.post('/reservar', (req, res) => {
     const reservaQuery = `
       INSERT INTO reserva 
       (fecha_reserva, hora_reserva, cantidad_gente, estado_reserva, id_mesa, id_cliente) 
-      VALUES (?, ?, ?, 'pendiente', ?, ?)`;
+      VALUES (?, ?, ?, 'completado', ?, ?)`;
 
     db.query(reservaQuery, [fecha_reserva, hora_reserva, cantidad_gente, mesa, id_cliente], (err, result) => {
       if (err) {
@@ -163,7 +165,7 @@ app.put('/cancelar', (req, res) => {
         } else{return res.status(400).json({ success: false, message: 'No tienes ninguna reserva con este codigo' });}
         
       })
-      cancelReservation(id_cliente);
+      
     } else {
       return res.status(400).json({ success: false, message: 'los datos del cliente no existen, intente nuevamente' });
     }
