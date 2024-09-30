@@ -9,7 +9,9 @@ const port = 3000;
 
 // Middleware para parsear JSON y habilitar CORS
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://proyecto1-mocha.vercel.app' // Permitir solo este origen
+}));
 
 
 // Conexión a la base de datos MySQL
