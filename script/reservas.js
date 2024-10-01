@@ -1,4 +1,5 @@
 document.getElementById('elegir-mesa').addEventListener('click', function() {
+
     // Mostrar las mesas
     const mesasContainer = document.getElementById('mesas-container');
     mesasContainer.style.display = 'block';
@@ -7,27 +8,31 @@ document.getElementById('elegir-mesa').addEventListener('click', function() {
     const mesas = document.getElementById('mesas');
     mesas.innerHTML = '';  // Limpiar cualquier contenido previo
 
+    
     for (let i = 1; i <= 6; i++) {
+        // crea 6 botones para las mesas con su class, id e innertext correspondiente
         const mesaBtn = document.createElement('button');
         mesaBtn.innerText = `${i}`;
         mesaBtn.classList.add('mesa-btn');
         mesaBtn.dataset.mesaId = i;
 
+        //al hacer click en una mesa
         mesaBtn.addEventListener('click', function() {
             // Selecciona la mesa y muestra el botón de confirmación
             document.querySelectorAll('.mesa-btn').forEach(btn => btn.classList.remove('selected'));
             mesaBtn.classList.add('selected');
             document.getElementById('confirmar-reserva').style.display = 'block';
-            mesaSeleccionada = i;
+            mesaSeleccionada = i;//almacena la id de la mesa
         });
 
-        mesas.appendChild(mesaBtn);
+        mesas.appendChild(mesaBtn);//agrega la mesa al front
     }
 });
 
 
 document.getElementById('confirmar-reserva').addEventListener('click', function() {
 
+    //constantes que almacenan el valor guardados en los elementos con sus respectivas id
     const nombre = document.getElementById('Nombre').value;
     const correo = document.getElementById('Correo').value;
     const celular = document.getElementById('celular').value;
@@ -36,12 +41,13 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
     const horario = document.getElementById('Horario').value;
     const mesa = mesaSeleccionada;
 
+    //validacion para no dejar un campo vacio
     if(!nombre || !correo || !celular|| !fechaReserva || !horario || !cantidadGente || !mesa){
         alert("Por favor complete todos los campos")
         return
     };
 
-    // Validar formato de correo
+    // Validar formato de correo, por el momento, puede cambiar al aplicar la autenticacion para iniciar sesion
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón general para validar el formato de un correo
     if (!emailPattern.test(correo)) {
         alert("Por favor ingrese un correo válido");
@@ -88,12 +94,14 @@ document.getElementById('confirmar-reserva').addEventListener('click', function(
 
 document.getElementById('cancelar-reserva').addEventListener('click', function() {
 
+    //constantes para guardar el valor que tiene cada elemento del form segun su id
     const nombre = document.getElementById('Nombre-cancelar').value;
     const correo = document.getElementById('Correo-cancelar').value;
     const celular = document.getElementById('celular-cancelar').value;
     const codReserva = parseInt(document.getElementById('codReserva').value);
     
 
+    //validar que no haya campos vacios
     if(!nombre || !correo || !celular || !codReserva){
         alert("Por favor complete todos los campos")
         return
