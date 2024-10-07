@@ -10,15 +10,39 @@ html {
     scroll-behavior: smooth;
 }
 
+
+
 body {
     background-color: #323232;
     font-family: 'Roboto', sans-serif;
     margin: 0;
     color: whitesmoke;
-    display: flex; /* Usar flexbox */
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    height: 100vh; /* Altura completa de la ventana */
+    padding-top: 50px; /* Espacio adicional para el navbar */
+}
+
+
+
+#reservation-form h1{
+    font-size: 3em;
+    text-align: center;
+    padding: 15px;
+}
+
+#mesas-container h3{
+    font-size: 1.5em;
+    text-align: center;
+    padding: 30px;
+}
+
+#mesas-container-cancelar h3{
+    font-size: 1.5em;
+    text-align: center;
+    padding: 30px;
+}
+
+
+p {
+    font-size: 1.24em;
 }
 
 .container {
@@ -43,15 +67,52 @@ header {
     border-radius: 0 0 30px 30px;
 }
 
-.bars {
-    display: none;
+
+ 
+.mesa-btn {
+    display: inline-block;
+    width: 100px; /* Ancho de las mesas */
+    height: 100px; /* Alto de las mesas */
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Forma circular */
+    margin: 10px;
+    text-align: center;
+    line-height: 50px; /* Centrar el texto verticalmente */
+    transition: background-color 0.3s;
+    background-color: #746743;
+    font-size: 30px;
+    
 }
+
+.mesa-btn-cancel {
+    display: inline-block;
+    width: 100px; /* Ancho de las mesas */
+    height: 100px; /* Alto de las mesas */
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Forma circular */
+    margin: 10px;
+    text-align: center;
+    line-height: 50px; /* Centrar el texto verticalmente */
+    transition: background-color 0.3s;
+    background-color: #746743;
+    font-size: 30px;
+    
+}
+
+.selected {
+    background-color: #4CAF50; /* Color de fondo para la mesa seleccionada */
+    color: white; /* Cambia el color del texto */
+}
+
+
+
 
 .nav-bar {
     display: flex;
     justify-content: center;
     width: 100%;
 }
+
 
 .nav-bar ul {
     display: flex;
@@ -118,58 +179,52 @@ header {
     color: #e81010;
 }
 
-/* login,*/
-.container-form {
-    background-color: #e81010;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 500px; /* Ancho del formulario */
-    text-align: center;
+.reservs{
+    display: flex;
+}
 
+#res {
+    background-color: #202020; /* Fondo del formulario */
+    padding: 40px;
+    border-radius: 10px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra */
+    margin: 60px auto 20px auto; /* Margen superior más grande para separarlo del navbar */
+    max-width: 500px; /* Ancho máximo */
 }
 
 
-
-
-h2 {
-    text-align: center;
-    color: whitesmoke;
-    font-size: 3em;
+form {
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
 }
 
-span{
-    font-size: 20px;
-    margin-bottom: 15px;
+label {
+    margin-bottom: 5px; /* Espaciado entre etiqueta y campo */
+    font-weight: bold; /* Texto en negrita */
 }
 
-.form-group {
-    margin-top: 15px;
+input, select {
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #e81010; /* Borde del campo */
+    border-radius: 5px; /* Esquinas redondeadas */
+    margin-bottom: 15px; /* Espaciado entre campos */
+    background-color: #323232; /* Fondo del campo */
+    color: whitesmoke; /* Color del texto */
 }
 
-
-input[type="email"],
-input[type="password"],
-input[type = "text"],
-input[type = "tel"]{
-    width: 60%;
-    padding:20px;
-    border: 1px solid #ccc;
-    border-radius: 50px;
-    box-sizing: border-box;
+input::placeholder {
+    color: #aaa; /* Color del texto de los placeholders */
 }
-
 
 button {
-    padding: 15px; /* Espaciado interno */
-    background-color: #323232; /* Color de fondo del botón */
-    border-radius: 50px; /* Esquinas redondeadas */
+    padding: 12px; /* Espaciado interno */
+    background-color: #e81010; /* Color de fondo del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Esquinas redondeadas */
     color: whitesmoke; /* Color del texto */
     font-weight: bold; /* Texto en negrita */
     cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
     transition: background-color 0.3s; /* Transición suave */
-    margin: 15px;
-   
 }
 
 button:hover {
@@ -177,49 +232,44 @@ button:hover {
     color: #e81010; /* Color del texto al pasar el ratón */
 }
 
-.Create-account {
-    background-color: #e81010; /* Color de fondo del formulario */
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 500px; /* Ancho del formulario */
-    text-align: center; /* Centra el texto */
-    margin: 20px auto; /* Centra el formulario en la página */
+footer {
+    background-color: #202020;
+    color: whitesmoke;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    z-index: 1000;
 }
 
-.Create-account h2 {
-    color: whitesmoke; /* Color del título */
-    font-size: 2em; /* Tamaño de fuente del título */
+footer p {
+    margin: 0;
+    color: rgb(100, 100, 100);
+    font-size: 0.8rem;
 }
 
-.Create-account span {
-    color: whitesmoke; /* Color del texto */
-    font-size: 16px; /* Tamaño del texto */
+footer .container {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
-
-.Create-account label {
-    display: block; /* Cambiar a bloque para que el label ocupe toda la línea */
-    color: whitesmoke; /* Color del texto del label */
-    font-size: 14px; /* Tamaño de fuente del label */
-    margin-bottom: 10px; /* Espaciado inferior del label */
-    margin-top: 10px;
-    text-align: start;
-    font-size: 20px;
+footer .container-a {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
 }
 
-.Create-account input {
-    width: 100%; /* Ancho completo del campo de entrada */
-    padding: 10px; /* Ajustar el espaciado interno */
-    border: 1px solid #ccc; /* Borde de los campos */
-    border-radius: 10px; /* Bordes redondeados */
-    box-sizing: border-box; /* Incluir padding y border en el ancho total */
+footer a {
+    color: white;
+    margin: 0 10px;
+    transition: color 0.3s;
 }
 
+footer a:hover {
+    color: #e81010;
+}
 
-
-
-/*create account*/
 /* Vista PC */
 @media (max-width: 900px) {
     h1 {
@@ -274,6 +324,14 @@ button:hover {
 
     .nav-bar.active ul {
         opacity: 1;
+    }
+
+    #hero {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        height: auto;
+        width: 100%;
     }
 
     footer .container {

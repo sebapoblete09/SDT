@@ -3,6 +3,7 @@ const express = require('express');// para trabajar en un servidor local
 const mysql = require('mysql'); // necesario para conectar la bd
 const bodyParser = require('body-parser');//se utiliza para procesar los datos enviados en el cuerpo (body) de las solicitudes HTTP
 const cors = require('cors'); //permite que el servidor acepte solicitudes de otros dominios.
+const jwt = require('jsonwebtoken'); // nuevo para trabajar con JWT
 
 //crea el servidor local, en el puerto 3000
 const app = express();
@@ -11,6 +12,8 @@ const port = 3000;
 // Middleware para parsear JSON y habilitar CORS
 app.use(bodyParser.json());
 app.use(cors());
+
+const SECRET_KEY = 'tu_clave_secreta';
 
 
 
@@ -39,6 +42,136 @@ function validarFechaReserva(fecha, hora){
   return fechaReserva >= fechaActual;
 
 }
+
+app.post('/CrearUsuario',(req, res) => {
+
+  // crear las constantes que reciben los datos del formulario
+  const { nombre, correo, celular, password} = req.body;
+  console.log(req.body);
+
+   // Buscar si el cliente ya existe en la base de datos
+   const clienteQuery = 'SELECT id_cliente FROM clientes WHERE correo_cliente = ?';
+
+   //si el correo ya esta en la bd, el cliente existe
+  db.query(clienteQuery, [correo], (err, results) => {
+
+    // si hay un error al buscar el cliente
+    if (err) {
+      console.error('Error buscando cliente:', err);
+      return res.status(500).json({ error: 'Error al buscar el cliente' });
+      
+    }
+
+    //si hay mas de 1 resultado en el select, quiere decir que el cliente existe
+    if (results.length > 0) {
+      // Cliente ya existe
+      console.error("El cliente ya está registrado anteriormente")
+      return res.status(500).json({ error: 'Cliente ya registrado' });
+    } else {
+      // Cliente no existe, insertarlo
+      //crea una constante para ejecutar el insert
+      const insertClienteQuery = 'INSERT INTO clientes (nombre_cliente, correo_cliente, celular,password_cliente) VALUES (?, ?, ?,?)';
+      db.query(insertClienteQuery, [nombre, correo, celular,password], (err, result) => {//realiza la query, pasando los valores almacenados en las constantes
+        
+        if (err) {//repite el proceso de verificar el cliente con el correo y guardar la id del cliente
+          if (err.code === 'ER_DUP_ENTRY') {
+            db.query(clienteQuery, [correo], (err, results) => {
+              if (err) {
+                console.error('Error buscando cliente:', err);
+                return res.status(500).json({ error: 'Error al buscar el cliente' });
+              }
+              
+            });
+          } else {
+            console.error('Error insertando cliente:', err);
+            return res.status(500).json({ error: 'Error al insertar el cliente' });
+          }
+        } else {
+          res.status(200).json({ success: true, message: 'Registro completado' })
+        }
+      });
+    }
+  });
+
+})
+
+// Ruta de inicio de sesión
+app.post('/login', (req, res) => {
+  const { correo, password } = req.body;
+
+  // Verificar si el usuario existe en la base de datos
+  const query = 'SELECT * FROM clientes WHERE correo_cliente = ? AND password_cliente = ?';
+  db.query(query, [correo, password], (err, results) => {
+    if (err) {
+      console.error('Error buscando usuario:', err);
+      return res.status(500).json({ error: 'Error en el servidor' });
+    }
+
+    if (results.length > 0) {
+      // Usuario encontrado, generar token JWT
+      const user = { id: results[0].id_cliente, correo: results[0].correo_cliente };
+
+      // Firmar el token con el id y correo del usuario
+      const token = jwt.sign(user, SECRET_KEY, { expiresIn: '1h' }); // Expira en 1 hora
+
+      return res.status(200).json({
+        success: true,
+        message: 'Inicio de sesión exitoso',
+        token, // Se envía el token al cliente
+      });
+    } else {
+      return res.status(400).json({ success: false, message: 'Credenciales incorrectas' });
+    }
+  });
+});
+
+// Middleware para verificar el token JWT
+function verificarToken(req, res, next) {
+  const token = req.headers['authorization'];
+  
+  if (!token) {
+    return res.status(403).json({ error: 'Acceso denegado. No hay token.' });
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Token inválido' });
+    }
+
+    // Guardar la información del usuario decodificada
+    req.user = decoded;
+    next();
+  });
+}
+
+// Ruta protegida que solo pueden acceder usuarios autenticados
+app.get('/perfil', verificarToken, (req, res) => {
+  res.status(200).json({ success: true, message: 'Accediste a una ruta protegida', user: req.user });
+});
+
+
+function obtenerPerfil() {
+  const token = localStorage.getItem('token');
+
+  fetch('http://localhost:3000/perfil', {
+      method: 'GET',
+      headers: {
+          'Authorization': token // Enviar el token en las cabeceras
+      }
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          console.log('Perfil del usuario:', data.user);
+      } else {
+          alert('No se pudo acceder a la información del perfil.');
+      }
+  })
+  .catch(error => {
+      console.error('Error al obtener el perfil:', error);
+  });
+}
+
 
 app.post('/reservar', (req, res) => {
 
@@ -213,6 +346,48 @@ app.put('/cancelar', (req, res) => {
     });
   }
 });
+
+// Endpoint para obtener todas las reservas de un usuario específico
+// Endpoint para obtener todas las reservas de un usuario específico
+app.get('/mostrar', (req, res) => {
+  const correo = req.query.correo; // Obtiene el correo del usuario desde los parámetros de la URL
+
+  // Consulta SQL para obtener el ID del cliente basado en su correo
+  const clienteQuery = 'SELECT id_cliente FROM clientes WHERE correo_cliente = ?';
+
+  db.query(clienteQuery, [correo], (err, results) => {
+      if (err) {
+          console.error('Error buscando cliente:', err);
+          return res.status(500).json({ error: 'Error al buscar el cliente' });
+      }
+
+      // Verificar si se encontró el cliente
+      if (results.length === 0) {
+          return res.status(404).json({ success: false, message: 'Cliente no encontrado' });
+      }
+
+      const id_cliente = results[0].id_cliente; // Se obtiene el ID del cliente
+
+      // Consulta SQL para obtener las reservas del usuario
+      const selectQuery = 'SELECT * FROM reserva WHERE id_cliente = ?';
+
+      db.query(selectQuery, [id_cliente], (err, results) => {
+          if (err) {
+              console.error('Error al obtener reservas:', err);
+              return res.status(500).json({ success: false, message: 'Error al obtener reservas: ' + err.message });
+          }
+
+          // Verifica si se encontraron reservas
+          if (results.length === 0) {
+              return res.status(404).json({ success: false, message: 'No se encontraron reservas para este usuario' });
+          }
+
+          // Si se encuentran reservas, se envían en la respuesta
+          return res.json({ success: true, reservas: results });
+      });
+  });
+});
+
 
 
 // Servidor escuchando en el puerto 3000
